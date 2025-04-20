@@ -1,0 +1,37 @@
+# Ignore Python bytecode and cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignore virtual environments
+env/
+venv/
+ENV/
+
+# Ignore distribution/build files
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Ignore logs
+*.log
+
+# Ignore Kafka logs
+kafka-logs/
+
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore Docker Compose override files
+docker-compose.override.yml
+
+# Ignore other temporary files
+*.tmp
+*.temp
+*.old
+*.orig
+*.rej
+*.bak
+*.swp
+*.swo
