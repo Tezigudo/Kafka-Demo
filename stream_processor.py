@@ -2,7 +2,10 @@ from kafka import KafkaConsumer
 import json
 from collections import defaultdict
 
-# Create a Kafka consumer
+# Simulate stateful processing: track how many times each user orders
+order_counts = defaultdict(int)
+
+# Kafka consumer setup
 consumer = KafkaConsumer(
     'food-orders',
     bootstrap_servers='localhost:9092',
@@ -10,13 +13,16 @@ consumer = KafkaConsumer(
     value_deserializer=lambda m: json.loads(m.decode('utf-8'))
 )
 
-# Simulate Kafka Streams: live aggregation
-order_counts = defaultdict(int)
+print("📊 Stream processor running...\n")
 
-print("📊 Starting Kafka Stream Processor...\n")
-
+# Process stream in real time
 for message in consumer:
     order = message.value
-    user = order.get("user")
+    user = order.get("user", "unknown")
+    items = ", ".join(order.get("items", []))
+
+    # Update state
     order_counts[user] += 1
-    print(f"🧾 {user} placed order for {order['item']} (Total Orders: {order_counts[user]})")
+
+    # Output insight
+    print(f"🧾 {user} ordered: {items} | Total Orders: {order_counts[user]}")
